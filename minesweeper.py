@@ -9,9 +9,9 @@ EMPTY_SPACE = " "
 MINE = "m"
 
 # Game constants
-BOARD_WIDTH = 10
-BOARD_HEIGHT = 10
-NUMBER_OF_MINES = 10
+BOARD_WIDTH = 20
+BOARD_HEIGHT = 20
+NUMBER_OF_MINES = 30
 
 
 def main():
@@ -58,8 +58,24 @@ def add_nearby_mines(x, y, mines):
 			num_of_adj_mines += 1
 	return num_of_adj_mines
 
-def display_board():
+def display_board(board):
 	"""Displays board given a board dictionary."""
+	board_str = " "
+	for x in range(1, BOARD_WIDTH + 1):
+		if x < 10:
+			board_str += f"  {x}"
+		else:
+			board_str += f" {x}"
+	board_str += "\n"
+	for y in range(1, BOARD_HEIGHT + 1):
+		if y < 10:
+			board_str += f"{y} "
+		else:
+			board_str += f"{y}"
+		for x in range(1, BOARD_WIDTH + 1):
+			board_str += f"[{board[x, y]}]"
+		board_str += "\n"
+	return board_str
 
 
 # If this program was run (instead of imported), run the game
