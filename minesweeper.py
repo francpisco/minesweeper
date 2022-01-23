@@ -58,7 +58,7 @@ def add_nearby_mines(x, y, mines):
 			num_of_adj_mines += 1
 	return num_of_adj_mines
 
-def display_board(board):
+def display_board(board, cover_board):
 	"""Displays board given a board dictionary."""
 	board_str = " "
 	for x in range(1, BOARD_WIDTH + 1):
@@ -73,10 +73,25 @@ def display_board(board):
 		else:
 			board_str += f"{y}"
 		for x in range(1, BOARD_WIDTH + 1):
-			board_str += f"[{board[x, y]}]"
+			if cover_board[(x, y)] == False:
+				board_str += "[?]"
+			else:
+				board_str += f"[{board[x, y]}]"
 		board_str += "\n"
 	return board_str
 
+def get_cover_board():
+	"""Returns a layer board to cover clues and mines."""
+	cover_board = {}
+	for x in range(1, BOARD_WIDTH + 1):
+		for y in range(1, BOARD_HEIGHT + 1):
+			# This value is False for hidden squares and True for open squares
+			cover_board[(x, y)] = False 
+	return cover_board
+
+def refresh_cover_board(cover_board, x, y):
+	"""Gradually opens squares."""
+	cover_board[x, y] = True
 
 # If this program was run (instead of imported), run the game
 if __name__ == "__main__":
