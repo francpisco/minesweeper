@@ -9,7 +9,7 @@ cover_board = minesweeper.get_cover_board()
 
 print(minesweeper.display_board(board, cover_board))
 
-minesweeper.refresh_cover_board(cover_board, board, 1, 2)
+minesweeper.open_square(cover_board, board, 1, 2)
 
 print(minesweeper.display_board(board, cover_board))
 
