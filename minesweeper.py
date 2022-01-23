@@ -50,8 +50,7 @@ def get_mine_places():
 
 def add_nearby_mines(x, y, mines):
 	"""Returns number of nearby mines to give clue to player."""
-	adjacent_squares = [(x - 1, y - 1), (x, y - 1), (x + 1, y - 1), 
-		(x - 1, y), (x + 1, y), (x - 1, y + 1), (x, y + 1), (x + 1, y + 1)]
+	adjacent_squares = get_adjacent_squares(x, y)
 	num_of_adj_mines = 0
 	for square in adjacent_squares:
 		if square in mines:
@@ -89,9 +88,21 @@ def get_cover_board():
 			cover_board[(x, y)] = False 
 	return cover_board
 
-def refresh_cover_board(cover_board, x, y):
+def refresh_cover_board(cover_board, board, x, y):
 	"""Gradually opens squares."""
 	cover_board[x, y] = True
+	adjacent_squares = get_adjacent_squares(x, y)
+	if board[(x, y)] == EMPTY_SPACE:
+		for x in range(1, BOARD_WIDTH + 1):
+			for y in range(1, BOARD_HEIGHT + 1):
+				if (x, y) in adjacent_squares:
+					cover_board[x, y] = True
+
+def get_adjacent_squares(x, y):
+	"""Returns a list of adjacent squares to a given square."""
+	return [(x - 1, y - 1), (x, y - 1), (x + 1, y - 1), (x - 1, y), (x + 1, y),
+		(x - 1, y + 1), (x, y + 1), (x + 1, y + 1)]
+
 
 # If this program was run (instead of imported), run the game
 if __name__ == "__main__":
