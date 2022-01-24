@@ -5,7 +5,7 @@ player steps on a mine."""
 import random
 
 # Game characters to fill in on board.
-EMPTY_SPACE = " "
+EMPTY_SPACE = "_"
 MINE = "m"
 
 # Game constants
@@ -15,7 +15,29 @@ NUMBER_OF_MINES = 30
 
 
 def main():
-	"""Start game."""
+	"""Runs a game of minesweeper."""
+
+	print("""Mineseeper by Francisco Almeida. Find all mines on the board 
+		without steping on one.""")
+
+	board = get_board()
+	cover_board = get_cover_board()
+
+
+	while True:
+		display_board(board, cover_board)
+		x = input("Choose one square to opern X: ")
+		y = input("Y: ")
+		if x == 'q' or y == 'q':
+			break
+		open_square(board, cover_board, int(x), int(y))
+		display_board(board, cover_board)
+		if board[int(x), int(y)] == MINE:
+			print("Game lost!!!")
+			break
+
+
+
 
 
 def get_board():
@@ -75,11 +97,11 @@ def display_board(board, cover_board):
 			board_str += f"{y}"
 		for x in range(1, BOARD_WIDTH + 1):
 			if cover_board[(x, y)] == False:
-				board_str += "[?]"
+				board_str += "[_]"
 			else:
-				board_str += f"[{board[x, y]}]"
+				board_str += f" {board[x, y]} "
 		board_str += "\n"
-	return board_str
+	print(board_str)
 
 
 def get_cover_board():
@@ -92,7 +114,7 @@ def get_cover_board():
 	return cover_board
 
 
-def open_square(cover_board, board, x, y):
+def open_square(board, cover_board, x, y):
 	"""Gradually opens squares."""
 	cover_board[x, y] = True
 	if board[(x, y)] == EMPTY_SPACE:
