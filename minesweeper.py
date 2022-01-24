@@ -26,19 +26,27 @@ def main():
 
 	board = get_board()
 	cover_board = get_cover_board()
+	
+	display_board(board, cover_board)
 
 	while True:
-		display_board(board, cover_board)
 		
 		x = ask_player_input('x')
 		y = ask_player_input('y')
+
+		if cover_board[x, y]:
+			print("square already open.")
+			continue
 
 		open_square(board, cover_board, x, y)
 		display_board(board, cover_board)
 		if board[x, y] == MINE:
 			print("Game lost!!!")
 			break
-			
+		if get_number_of_closed_sqr(cover_board) == NUMBER_OF_MINES:
+			print("You won!")
+			break
+
 
 def ask_player_input(direction):
 	"""Asks player for a valid square. Checks if input is valid. Takes a 
@@ -161,6 +169,14 @@ def open_adjacent_sqrs(cover_board, board, x, y):
 			cover_board[i, j] = True
 			if board[i, j] == EMPTY_SPACE:
 				open_adjacent_sqrs(cover_board, board, i, j)
+
+def get_number_of_closed_sqr(cover_board):
+	"""Returns the number of closed squares on the board."""
+	total_closed = 0
+	for square in cover_board:
+		if not cover_board[square]:
+			total_closed += 1
+	return total_closed
 
 
 # If this program was run (instead of imported), run the game
