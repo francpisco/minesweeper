@@ -2,6 +2,7 @@
 A game is won if the player can identify all mines. A game is lost if the
 player steps on a mine."""
 
+import sys
 import random
 
 # Game characters to fill in on board.
@@ -17,27 +18,50 @@ NUMBER_OF_MINES = 30
 def main():
 	"""Runs a game of minesweeper."""
 
-	print("""Mineseeper by Francisco Almeida. Find all mines on the board 
-		without steping on one.""")
+	print("""Mineseeper by Francisco Almeida fmpapt@gmail.com""")
+	print("Find all mines without steping on one.")
+	answer = input("Press any key to start, 'q' to quit.")
+	if answer == 'q':
+		sys.exit()
 
 	board = get_board()
 	cover_board = get_cover_board()
 
-
 	while True:
 		display_board(board, cover_board)
-		x = input("Choose one square to opern X: ")
-		y = input("Y: ")
-		if x == 'q' or y == 'q':
-			break
-		open_square(board, cover_board, int(x), int(y))
+		
+		x = ask_player_input('x')
+		y = ask_player_input('y')
+
+		open_square(board, cover_board, x, y)
 		display_board(board, cover_board)
-		if board[int(x), int(y)] == MINE:
+		if board[x, y] == MINE:
 			print("Game lost!!!")
 			break
+			
 
-
-
+def ask_player_input(direction):
+	"""Asks player for a valid square. Checks if input is valid. Takes a 
+	parameter for x direction or y direction."""
+	while True:
+		if direction == 'x':
+			print(f"Enter a value from 1 to {BOARD_WIDTH} for x value or " +
+				"press 'q' to quit")
+		else:
+			print(f"Now enter a value from 1 to {BOARD_HEIGHT} for y value "
+			"or press 'q' to quit.")
+		response = input("> ").lower()
+		if response == 'q':
+			sys.exit()
+		try:
+			num = int(response)
+		except ValueError:
+			continue
+		if direction == 'x' and num not in range(1, BOARD_WIDTH + 1):
+			continue
+		elif num not in range(1, BOARD_HEIGHT + 1):
+			continue
+		return num
 
 
 def get_board():
